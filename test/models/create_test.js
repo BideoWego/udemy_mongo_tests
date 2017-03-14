@@ -1,8 +1,14 @@
+require('../test_helper');
 var expect = require('chai').expect;
-var User = require('../src/User');
+var mongoose = require('mongoose');
 
 
 describe('Creating records', () => {
+
+
+  let User = mongoose.model('user');
+
+
   it('saves a user', (done) => {
     var joe = new User({ name: "Joe" });
     joe.save()
@@ -10,8 +16,7 @@ describe('Creating records', () => {
         expect(user.isNew).to.equal(false);
         expect(user.name).to.equal("Joe");
         done();
-      })
-      .catch((e) => { throw e });
+      });
   });
 });
 

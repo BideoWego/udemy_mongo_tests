@@ -1,11 +1,11 @@
 var mongoose = require('mongoose');
+require('../src/load_models');
 
 
 // Only run tests once connected
 before((done) => {
   mongoose.connect('mongodb://localhost/users_test')
-    .then(() => done())
-    .catch((e) => { throw e; });
+    .then(() => done());
 });
 
 
@@ -20,14 +20,20 @@ afterEach((done) => {
   var promises = [];
 
   collectionKeys.forEach((key) => {
-    var promise = collections[key].drop();
+    var promise = collections[key].remove(); //<<<<<<<<<<<<<
     promises.push(promise);
   });
 
   Promise.all(promises)
-    .then(() => done())
-    .catch((e) => { throw e; });
+    .then(() => done());
 });
+
+
+
+
+
+
+
 
 
 
