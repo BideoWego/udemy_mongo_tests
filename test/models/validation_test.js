@@ -6,7 +6,7 @@ var mongoose = require('mongoose');
 describe('Validation', () => {
 
 
-  let User = mongoose.model('user');
+  let User = mongoose.model('User');
 
 
   it('requires a name', (done) => {

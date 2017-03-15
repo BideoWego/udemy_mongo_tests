@@ -6,9 +6,10 @@ var data = fs.readdirSync(path);
 
 
 data.forEach((file) => {
-  var path = `./models/${ file }`;
-  console.log(`Model path: ${ path }`);
-  require(path);
+  if (!/.+_schema.js$/.test(file)) {
+    var path = `./models/${ file }`;
+    require(path);
+  }
 });
 
 

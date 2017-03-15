@@ -6,13 +6,25 @@ var mongoose = require('mongoose');
 describe('Reading users out of the database', () => {
 
 
-  let User = mongoose.model('user');
+  let User = mongoose.model('User');
+  let alex;
   let joe;
+  let maria;
+  let zach;
 
 
   beforeEach((done) => {
+    alex = new User({ name: "Alex" });
     joe = new User({ name: "Joe" });
-    joe.save()
+    maria = new User({ name: "Maria" });
+    zach = new User({ name: "Zach" });
+
+    Promise.all([
+      alex,
+      joe,
+      maria,
+      zach
+    ].map((user) => user.save()))
       .then(() => done());
   });
 
@@ -31,6 +43,18 @@ describe('Reading users out of the database', () => {
     User.findOne({ _id: joe.id })
       .then((user) => {
         expect(user.name).to.equal("Joe");
+        done();
+      });
+  });
+
+
+  it('skips and limits the results', (done) => {
+    User.find({}, { _id: 0, name: 1 })
+      .sort('name').skip(1).limit(2)
+      .then((users) => {
+        expect(users.length).to.equal(2);
+        expect(users[0].name).to.equal("Joe");
+        expect(users[1].name).to.equal("Maria");
         done();
       });
   });

@@ -6,12 +6,12 @@ var mongoose = require('mongoose');
 describe('Updating users', () => {
 
 
-  let User = mongoose.model('user');
+  let User = mongoose.model('User');
   let joe;
 
 
   beforeEach((done) => {
-    joe = new User({ name: "Joe", postCount: 0 });
+    joe = new User({ name: "Joe", likes: 0 });
     joe.save()
       .then(() => done());
   });
@@ -76,13 +76,13 @@ describe('Updating users', () => {
   });
 
 
-  it('can increment postCount', (done) => {
-    User.update({ name: "Joe" }, { $inc: { postCount: 1 } })
+  it('can increment likes', (done) => {
+    User.update({ name: "Joe" }, { $inc: { likes: 1 } })
       .then(() => User.find({}))
       .then((users) => {
         var user = users[0];
         expect(user.id).to.equal(joe.id)
-        expect(user.postCount).to.equal(1);
+        expect(user.likes).to.equal(1);
         done();
       });
   });

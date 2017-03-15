@@ -5,7 +5,7 @@ var mongoose = require('mongoose');
 describe('Deleting a user', () => {
 
 
-  let User = mongoose.model('user');
+  let User = mongoose.model('User');
   let joe;
 
 

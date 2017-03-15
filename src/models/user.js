@@ -3,6 +3,9 @@ require('../mongoose_config');
 var Schema = mongoose.Schema;
 
 
+var PostSchema = require('./post_schema');
+
+
 var UserSchema = new Schema({
   name: {
     type: String,
@@ -15,11 +18,29 @@ var UserSchema = new Schema({
       message: "Name appears to be invalid"
     }
   },
-  postCount: Number
+  posts: [PostSchema],
+  blogPosts: [{
+    type: Schema.Types.ObjectId,
+    ref: "BlogPost"
+  }],
+  likes: Number
 });
 
 
-var User = mongoose.model('user', UserSchema);
+UserSchema.virtual('postCount').get(function() {
+  return this.posts.length;
+});
+
+
+UserSchema.pre('remove', function(next) {
+  // this === instance
+  var BlogPost = mongoose.model('BlogPost');
+  BlogPost.remove({ _id: { $in: this.blogPosts } })
+    .then(() => next());
+});
+
+
+var User = mongoose.model('User', UserSchema);
 
 
 module.exports = User;

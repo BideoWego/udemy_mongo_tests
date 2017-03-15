@@ -6,7 +6,7 @@ var mongoose = require('mongoose');
 describe('Creating records', () => {
 
 
-  let User = mongoose.model('user');
+  let User = mongoose.model('User');
 
 
   it('saves a user', (done) => {
